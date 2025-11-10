@@ -3,8 +3,8 @@
   --color-bg: #4e4e4e;
   --color-primary: #eb2525;
   --color-accent: #d42f06;
-  --color-text: #bfbfbf;
-  --color-cards-bg: #1e1e1e;
+  --color-text: #ededed;
+  --color-cards-bg: #1e1e1eaf;
   --container-width: 1100px;
   --radius: 8px;
 }
@@ -16,7 +16,7 @@ html,body{
   margin:0;
   font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
   color:var(--color-text);
-  background: url('istockphoto.jpg') no-repeat center center fixed;
+  background: linear-gradient(#d42f0680, #bfbfbf80) no-repeat center center fixed, url('/img/besis.jpg') no-repeat center center fixed;
   background-size: cover;
 }
 a{
@@ -29,15 +29,12 @@ img{
 }
 
 .container{
-  max-width:var(--container-width);
-  margin:0 auto;
-  padding:1rem;
+  margin: 0 auto;
 }
 
 /* Header */
 .header_logo-container {
   display: flex;
-  align-items: center;
 }
 .header_logo-container img {
   width: 100px;
@@ -103,22 +100,85 @@ img{
   background:var(--color-cards-bg);
   padding:1rem;
   border-radius:var(--radius);
-  box-shadow:0 1px 2px rgba(2,6,23,.04);
+  box-shadow:0 1px 2px rgba(2, 6, 23, 0);
 }
 
-/* Contact form */
-form{display:grid;gap:.5rem;max-width:480px}
-input,textarea{padding:.5rem;border:1px solid #e6e9ef;border-radius:6px}
-label{font-weight:600;font-size:.9rem}
+/*form */
+.login-form a{
+  color: var(--color-text);
+  text-decoration: none;
+}
+.login-form a:hover{
+  color: var(--color-primary);
+  text-decoration: none;
+}
+.register-form a{
+  color: var(--color-text);
+}
+.register-form a:hover{
+  color: var(--color-primary);
+  text-decoration: none;
+}
+form{
+  display:grid;
+  gap:.5rem;
+  max-width:480px;
+}
+input,textarea, select{
+  padding:.5rem;
+  border:1px solid #e6e9ef;
+  border-radius:6px;
+}
+label{
+  font-weight:600;
+  font-size:.9rem;
+}
 
 /* Footer */
 .site-footer{
   padding:1rem 0;
   margin-top:2rem;
-  background:#fff;
+  background:#383838;
   border-top:1px solid rgba(15,23,42,.04);
 }
 
+/* Register */
+.register {
+    /* Centra la sección horizontalmente, aunque ya tiene la clase .container */
+    /* Lo esencial es centrar el contenido (el formulario) dentro de esta sección */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra el contenido (incluido el h3 y el formulario) horizontalmente */
+    /* Opcional: Centrar verticalmente en la pantalla si el contenido es pequeño */
+    min-height: calc(100vh - 100px); /* Ajusta a la altura de la ventana menos la altura aproximada del header */
+}
+
+.register-form {
+    max-width: 480px; 
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    background: var(--color-cards-bg);
+    padding: 2rem;
+    border-radius: var(--radius);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Login */
+.login {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    min-height: calc(100vh - 100px); 
+}
+.login-form {
+    max-width: 400px; 
+    width: 100%;
+    background: var(--color-cards-bg);
+    padding: 2rem;
+    border-radius: var(--radius);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
 /* Responsive rules */
 @media (max-width:900px){
   .features .grid{grid-template-columns:repeat(2,1fr)}

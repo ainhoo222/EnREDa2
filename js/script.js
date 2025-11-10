@@ -56,6 +56,7 @@ document.addEventListener('DOMContentLoaded', function () {
       bellezaMsg.className = 'muted';
       bellezaMsg.setAttribute('aria-live', 'polite');
       bellezaMsg.style.marginTop = '.25rem';
+      bellezaMsg.style.color = '#ededed';
       bellezaInput.insertAdjacentElement('afterend', bellezaMsg);
     }
 

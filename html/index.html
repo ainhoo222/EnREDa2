@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>EnREDa2</title>
     <meta name="description" content="Plantilla inicial con HTML, CSS y JS para comenzar un proyecto web." />
-    <link rel="stylesheet" href="styles.css">
-    <link rel="icon" type="image/png" href="EnREDa2Logo.png" />
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="icon" type="image/png" href="/img/EnREDa2Logo.png" />
   </head>
   <body>
     <header class="site-header">
       <div class="container header-inner">
         <div class="header_logo-container">
-              <img src="EnREDa2Logo.png" alt="Logo" class="header_logo">
+              <img src="/img/EnREDa2Logo.png" alt="Logo" class="header_logo">
         </div>
         <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav">☰</button>
         <nav id="primary-nav" class="primary-nav">
@@ -20,7 +20,7 @@
             <li><a href="#">Inicio</a></li>
             <li><a href="#stats">Estadísticas</a></li>
             <li><a href="#about">Acerca</a></li>
-            <li><a href="#register">Registro</a></li>
+            <li><a href="login.html">Identificarse</a></li>
           </ul>
         </nav>
       </div>
@@ -58,54 +58,12 @@
         <p>EnREDa2 es una plataforma innovadora diseñada para calcular y analizar estadísticas relacionadas con el amor y las relaciones personales. Es la primera de su tipo en ofrecer estas funcionalidades. <br> Nuestro objetivo es proporcionar información valiosa y herramientas útiles para poder chismear con propiedad.</p>
       </section>
 
-      <!-- Sección de registro de usuario -->
-      <section id="register" class="container register">
-        <h3>Registro de usuario</h3>
-        <form id="register-form">
-          <label for="r-nombre">Nombre</label>
-          <input id="r-nombre" name="nombre" type="text" required />
-
-          <label for="r-edad">Edad</label>
-          <input id="r-edad" name="edad" type="number" min="0" max="150" required />
-
-          <label for="r-sexo">Sexo</label>
-          <select id="r-sexo" name="sexo" required>
-            <option value="">-- selecciona --</option>
-            <option value="masculino">Masculino</option>
-            <option value="femenino">Femenino</option>
-            <option value="otro">Otro</option>
-            <option value="prefiero_no_decir">Prefiero no decir</option>
-          </select>
-
-          <label for="r-sexualidad">Sexualidad</label>
-          <select id="r-sexualidad" name="sexualidad">
-            <option value="">-- selecciona --</option>
-            <option value="heterosexual">Heterosexual</option>
-            <option value="homosexual">Homosexual</option>
-            <option value="bisexual">Bisexual</option>
-            <option value="otro">Otro</option>
-          </select>
-
-          <label for="r-altura">Altura (cm)</label>
-          <input id="r-altura" name="altura" type="number" step="0.1" min="0" />
-
-          <label for="r-belleza">Belleza (1-10)</label>
-          <input id="r-belleza" name="belleza" type="number" min="1" max="10" value="0" />
-
-          <label for="r-estudios">Estudios</label>
-          <textarea id="r-estudios" name="estudios" rows="3" placeholder="Enviar"></textarea>
-
-          <button type="submit" class="btn">Registrar</button>
-          <div id="register-feedback" class="muted" role="status" aria-live="polite"></div>
-        </form>
-      </section>
-
     <footer class="site-footer">
       <div class="container">
         <p>© <span id="year"></span> Chismes S.A. • Hecho por estudiantes aburridos.</p>
       </div>
     </footer>
 
-    <script src="script.js" defer></script>
+    <script src="/js/script.js" defer></script>
   </body>
 </html>
