@@ -59,6 +59,11 @@ altura, belleza, estudios, vive, kont)
 VALUES('Aimar', 'Aimar', 'Aimar Bazteretxea', '2003-07-22', 
 'Maculino', 'Homosexual', 1.75, 10, 'Ingenieria informatica', 'Bizkaia', 9);
 
+INSERT INTO users(nombreUsuario, contraseña, nombre, fechaNacimiento, sexo, sexualidad, 
+altura, belleza, estudios, vive, kont) 
+VALUES('Surya', 'Surya', 'Surya Ortega', '2005-05-06', 
+'Maculino', 'heterosexual', 1.83, 10, 'Ingenieria informatica', 'Bakio', 0);
+
 CREATE TABLE IF NOT EXISTS Persona (
   nombreUsuario INTEGER NOT NULL,
   nombre TEXT,
