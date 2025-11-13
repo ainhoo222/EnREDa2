@@ -42,7 +42,7 @@ SELECT * FROM UsuarioConEdad;
 INSERT INTO users(nombreUsuario, contraseña, nombre, fechaNacimiento, sexo, sexualidad, 
 altura, belleza, estudios, vive) 
 VALUES('ainhoo222', 'Ainhoa', 'Ainhoa Tomas', '2005-05-10', 
-'Femenino', 'bisexual', 1.65, 10, 'Ingenieria informatica', 'Bibao');
+'Femenino', 'bisexual', 1.65, 10, 'Ingenieria informatica', 'Txurdinaga');
 
 INSERT INTO users(nombreUsuario, contraseña, nombre, fechaNacimiento, sexo, sexualidad, 
 altura, belleza, estudios, vive, kont) 
@@ -73,6 +73,21 @@ INSERT INTO users(nombreUsuario, contraseña, nombre, fechaNacimiento, sexo, sex
 altura, belleza, estudios, vive, kont) 
 VALUES('Unai', 'Unai', 'Unai Rodriguez', '2004-09-23', 
 'Femenino', 'Lesbiana', 1.70, 10, 'Ingenieria informatica', 'Bolueta', 7);
+
+INSERT INTO users(nombreUsuario, contraseña, nombre, fechaNacimiento, sexo, sexualidad, 
+altura, belleza, estudios, vive, kont) 
+VALUES('Lander', 'Lander', 'Lander Sanchez', '2005-03-22', 'Maculino', 
+'Heterosexual', 1.73, 10, 'Administracion y Direcion de Enpresas', 'Santutxu', 17);
+
+INSERT INTO users(nombreUsuario, contraseña, nombre, fechaNacimiento, sexo, sexualidad, 
+altura, belleza, estudios, vive, kont) 
+VALUES('Ainara', 'Ainara', 'Ainara Juncay', '2005-09-30', 'Femenino', 
+'Heterosexual', 1.61, 10, 'Enfermeria', 'Santutxu', 3);
+
+INSERT INTO users(nombreUsuario, contraseña, nombre, fechaNacimiento, sexo, sexualidad, 
+altura, belleza, estudios, vive, kont) 
+VALUES('Iraia', 'Iraia', 'Iraia Menor', '2005-03-08', 'Femenino', 
+'Heterosexual', 1.68, 10, 'Medicina', 'Txurdinaga', 18);
 
 CREATE TABLE IF NOT EXISTS Persona (
   nombreUsuario INTEGER NOT NULL,
