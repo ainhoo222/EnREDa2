@@ -64,6 +64,16 @@ altura, belleza, estudios, vive, kont)
 VALUES('Surya', 'Surya', 'Surya Ortega', '2005-05-06', 
 'Maculino', 'heterosexual', 1.83, 10, 'Ingenieria informatica', 'Bakio', 0);
 
+INSERT INTO users(nombreUsuario, contraseña, nombre, fechaNacimiento, sexo, sexualidad, 
+altura, belleza, estudios, vive, kont) 
+VALUES('Ane', 'Ane', 'Ane Moreno', '2004-09-23', 
+'Femenino', 'Lesbiana', 1.70, 10, 'Ingenieria informatica', 'Bolueta', 7);
+
+INSERT INTO users(nombreUsuario, contraseña, nombre, fechaNacimiento, sexo, sexualidad, 
+altura, belleza, estudios, vive, kont) 
+VALUES('Unai', 'Unai', 'Unai Rodriguez', '2004-09-23', 
+'Femenino', 'Lesbiana', 1.70, 10, 'Ingenieria informatica', 'Bolueta', 7);
+
 CREATE TABLE IF NOT EXISTS Persona (
   nombreUsuario INTEGER NOT NULL,
   nombre TEXT,
