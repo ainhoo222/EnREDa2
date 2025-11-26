@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EnREDa2 - Consultas Personalizadas</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" type="image/png" href="img/EnREDa2Logo.png">
+    <style>
+        .filtro-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius);
+        }
+        .filtro-item {
+            display: flex;
+            flex-direction: column;
+        }
+        .filtro-item label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--color-text);
+        }
+        .filtro-item select, .filtro-item input {
+            padding: 0.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--color-text);
+            font-size: 1rem;
+        }
+        .consulta-card {
+            background: var(--color-cards-bg);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            margin: 1rem 0;
+            border-left: 4px solid var(--color-primary);
+        }
+        .resultados-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        .stat-card:hover {
+            transform: translateY(-2px);
+        }
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--color-primary);
+            margin-bottom: 0.5rem;
+        }
+        .consulta-rapida {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        .consulta-rapida:hover {
+            transform: translateY(-3px);
+            border-color: var(--color-primary);
+            box-shadow: 0 4px 12px rgba(235, 37, 37, 0.2);
+        }
+        .rango-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+        .filtro-badge {
+            display: inline-block;
+            background: var(--color-primary);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin: 0.25rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <div class="header_logo-container">
+                <img src="img/EnREDa2Logo.png" alt="Logo" class="header_logo">
+            </div>
+            <nav class="primary-nav">
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="consultas.html" class="active">Consultas</a></li>
+                    <li><a href="html/login.html">Identificarse</a></li>
+                    <li><a href="html/register.html">Registrarse</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <h2>Consultas Personalizadas</h2>
+            <p>Explora estadísticas anónimas de todos los usuarios. Selecciona filtros de las opciones disponibles.</p>
+        </section>
+
+        <!-- Consultas Rápidas -->
+        <section>
+            <h3>Consultas Populares</h3>
+            <div class="grid" id="consultas-populares">
+                <div class="card loading">Cargando consultas...</div>
+            </div>
+        </section>
+
+        <!-- Constructor de Consultas -->
+        <section>
+            <h3>Crea tu Consulta Personalizada</h3>
+            <div class="card">
+                <form id="form-consulta">
+                    <div class="filtro-group">
+                        <div class="filtro-item">
+                            <label for="filtro-ciudad">Ciudad</label>
+                            <select id="filtro-ciudad">
+                                <option value="todas">Todas las ciudades</option>
+                                <!-- Las ciudades se cargarán dinámicamente -->
+                            </select>
+                        </div>
+                        
+                        <div class="filtro-item">
+                            <label for="filtro-sexo">Sexo</label>
+                            <select id="filtro-sexo">
+                                <option value="todos">Todos los sexos</option>
+                                <!-- Los sexos se cargarán dinámicamente -->
+                            </select>
+                        </div>
+                        
+                        <div class="filtro-item">
+                            <label for="filtro-sexualidad">Sexualidad</label>
+                            <select id="filtro-sexualidad">
+                                <option value="todas">Todas las sexualidades</option>
+                                <!-- Las sexualidades se cargarán dinámicamente -->
+                            </select>
+                        </div>
+                        
+                        <div class="filtro-item">
+                            <label for="filtro-estudios">Estudios/Profesión</label>
+                            <select id="filtro-estudios">
+                                <option value="todos">Todos los estudios</option>
+                                <!-- Los estudios se cargarán dinámicamente -->
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="filtro-group">
+                        <div class="filtro-item">
+                            <label>Rango de Edad</label>
+                            <div class="rango-group">
+                                <input type="number" id="filtro-edad-min" min="0" max="150" placeholder="Edad mínima">
+                                <input type="number" id="filtro-edad-max" min="0" max="150" placeholder="Edad máxima">
+                            </div>
+                        </div>
+                        
+                        <div class="filtro-item">
+                            <label>Rango de Belleza (1-10)</label>
+                            <div class="rango-group">
+                                <input type="number" id="filtro-belleza-min" min="1" max="10" placeholder="Mínima">
+                                <input type="number" id="filtro-belleza-max" min="1" max="10" placeholder="Máxima">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <button type="submit" class="btn" style="font-size: 1.1rem; padding: 1rem 2rem;">
+                            🔍 Ejecutar Consulta
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Resultados -->
+        <section id="resultados-section" style="display: none;">
+            <h3>Resultados de la Consulta</h3>
+            <div id="resultados-consulta">
+                <!-- Los resultados se mostrarán aquí -->
+            </div>
+        </section>
+    </main>
+
+    <script>
+        let opcionesFiltros = {};
+
+        // Cargar opciones de filtros y consultas populares
+        document.addEventListener('DOMContentLoaded', function() {
+            cargarOpcionesFiltros();
+            
+            // Manejar el formulario de consulta
+            document.getElementById('form-consulta').addEventListener('submit', function(e) {
+                e.preventDefault();
+                ejecutarConsultaPersonalizada();
+            });
+        });
+
+        async function cargarOpcionesFiltros() {
+            try {
+                const response = await fetch('/api/filtros-opciones');
+                opcionesFiltros = await response.json();
+                llenarSelectsFiltros();
+                cargarConsultasPopulares();
+            } catch (error) {
+                console.error('Error cargando opciones de filtros:', error);
+                alert('Error al cargar las opciones de filtros');
+            }
+        }
+
+        function llenarSelectsFiltros() {
+            // Llenar select de ciudades
+            const selectCiudad = document.getElementById('filtro-ciudad');
+            opcionesFiltros.ciudades.forEach(ciudad => {
+                const option = document.createElement('option');
+                option.value = ciudad;
+                option.textContent = ciudad.charAt(0).toUpperCase() + ciudad.slice(1);
+                selectCiudad.appendChild(option);
+            });
+
+            // Llenar select de sexos
+            const selectSexo = document.getElementById('filtro-sexo');
+            opcionesFiltros.sexos.forEach(sexo => {
+                const option = document.createElement('option');
+                option.value = sexo;
+                option.textContent = sexo.charAt(0).toUpperCase() + sexo.slice(1);
+                selectSexo.appendChild(option);
+            });
+
+            // Llenar select de sexualidades
+            const selectSexualidad = document.getElementById('filtro-sexualidad');
+            opcionesFiltros.sexualidades.forEach(sexualidad => {
+                const option = document.createElement('option');
+                option.value = sexualidad;
+                option.textContent = sexualidad.charAt(0).toUpperCase() + sexualidad.slice(1);
+                selectSexualidad.appendChild(option);
+            });
+
+            // Llenar select de estudios
+            const selectEstudios = document.getElementById('filtro-estudios');
+            opcionesFiltros.estudios.forEach(estudio => {
+                const option = document.createElement('option');
+                option.value = estudio;
+                option.textContent = estudio.charAt(0).toUpperCase() + estudio.slice(1);
+                selectEstudios.appendChild(option);
+            });
+        }
+
+        async function cargarConsultasPopulares() {
+            try {
+                const response = await fetch('/api/consultas-populares');
+                const consultas = await response.json();
+                
+                const container = document.getElementById('consultas-populares');
+                container.innerHTML = consultas.map(consulta => `
+                    <article class="card consulta-rapida" onclick="aplicarConsultaPredefinida(${consulta.id})">
+                        <h4>${consulta.nombre}</h4>
+                        <p>${consulta.descripcion}</p>
+                        <div style="margin-top: 0.5rem;">
+                            ${Object.entries(consulta.filtros).map(([key, value]) => 
+                                `<span class="filtro-badge">${key}: ${value}</span>`
+                            ).join('')}
+                        </div>
+                        <small class="muted">Haz clic para aplicar</small>
+                    </article>
+                `).join('');
+            } catch (error) {
+                console.error('Error cargando consultas populares:', error);
+            }
+        }
+
+        async function aplicarConsultaPredefinida(idConsulta) {
+            try {
+                const response = await fetch('/api/consultas-populares');
+                const consultas = await response.json();
+                const consulta = consultas.find(c => c.id === idConsulta);
+                
+                if (consulta) {
+                    // Limpiar todos los filtros primero
+                    document.getElementById('filtro-ciudad').value = 'todas';
+                    document.getElementById('filtro-sexo').value = 'todos';
+                    document.getElementById('filtro-sexualidad').value = 'todas';
+                    document.getElementById('filtro-estudios').value = 'todos';
+                    document.getElementById('filtro-edad-min').value = '';
+                    document.getElementById('filtro-edad-max').value = '';
+                    document.getElementById('filtro-belleza-min').value = '';
+                    document.getElementById('filtro-belleza-max').value = '';
+
+                    // Aplicar filtros de la consulta predefinida
+                    if (consulta.filtros.ciudad) {
+                        document.getElementById('filtro-ciudad').value = consulta.filtros.ciudad;
+                    }
+                    if (consulta.filtros.sexo) {
+                        document.getElementById('filtro-sexo').value = consulta.filtros.sexo;
+                    }
+                    if (consulta.filtros.sexualidad) {
+                        document.getElementById('filtro-sexualidad').value = consulta.filtros.sexualidad;
+                    }
+                    if (consulta.filtros.estudios) {
+                        document.getElementById('filtro-estudios').value = consulta.filtros.estudios;
+                    }
+                    if (consulta.filtros.edad_min) {
+                        document.getElementById('filtro-edad-min').value = consulta.filtros.edad_min;
+                    }
+                    if (consulta.filtros.edad_max) {
+                        document.getElementById('filtro-edad-max').value = consulta.filtros.edad_max;
+                    }
+                    if (consulta.filtros.belleza_min) {
+                        document.getElementById('filtro-belleza-min').value = consulta.filtros.belleza_min;
+                    }
+                    if (consulta.filtros.belleza_max) {
+                        document.getElementById('filtro-belleza-max').value = consulta.filtros.belleza_max;
+                    }
+
+                    // Ejecutar la consulta automáticamente
+                    setTimeout(() => ejecutarConsultaPersonalizada(), 500);
+                }
+            } catch (error) {
+                console.error('Error aplicando consulta predefinida:', error);
+            }
+        }
+
+        async function ejecutarConsultaPersonalizada() {
+            const filtros = {
+                ciudad: document.getElementById('filtro-ciudad').value,
+                sexo: document.getElementById('filtro-sexo').value,
+                sexualidad: document.getElementById('filtro-sexualidad').value,
+                estudios: document.getElementById('filtro-estudios').value,
+                edad_min: document.getElementById('filtro-edad-min').value,
+                edad_max: document.getElementById('filtro-edad-max').value,
+                belleza_min: document.getElementById('filtro-belleza-min').value,
+                belleza_max: document.getElementById('filtro-belleza-max').value
+            };
+
+            // Generar descripción automática de la consulta
+            const descripcion = generarDescripcionConsulta(filtros);
+
+            try {
+                const response = await fetch('/api/consultas', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        consulta: descripcion,
+                        filtros: filtros
+                    })
+                });
+
+                const resultado = await response.json();
+                mostrarResultados(resultado);
+            } catch (error) {
+                console.error('Error ejecutando consulta:', error);
+                alert('Error al ejecutar la consulta. Intenta más tarde.');
+            }
+        }
+
+        function generarDescripcionConsulta(filtros) {
+            const partes = [];
+            
+            if (filtros.ciudad && filtros.ciudad !== 'todas') {
+                partes.push(`de ${filtros.ciudad.charAt(0).toUpperCase() + filtros.ciudad.slice(1)}`);
+            }
+            
+            if (filtros.sexo && filtros.sexo !== 'todos') {
+                partes.push(filtros.sexo === 'femenino' ? 'mujeres' : 
+                           filtros.sexo === 'masculino' ? 'hombres' : filtros.sexo);
+            }
+            
+            if (filtros.sexualidad && filtros.sexualidad !== 'todas') {
+                partes.push(filtros.sexualidad);
+            }
+            
+            if (filtros.estudios && filtros.estudios !== 'todos') {
+                partes.push(`que estudian ${filtros.estudios}`);
+            }
+            
+            if (filtros.edad_min || filtros.edad_max) {
+                const min = filtros.edad_min || '0';
+                const max = filtros.edad_max || '150';
+                partes.push(`de ${min} a ${max} años`);
+            }
+            
+            if (filtros.belleza_min || filtros.belleza_max) {
+                const min = filtros.belleza_min || '1';
+                const max = filtros.belleza_max || '10';
+                partes.push(`con belleza ${min}-${max}/10`);
+            }
+
+            return partes.length > 0 ? 
+                   `Estadísticas ${partes.join(' ')}` : 
+                   'Estadísticas generales de todos los usuarios';
+        }
+
+        function mostrarResultados(resultado) {
+            const section = document.getElementById('resultados-section');
+            const container = document.getElementById('resultados-consulta');
+            
+            section.style.display = 'block';
+
+            let html = `
+                <div class="consulta-card">
+                    <h4>${resultado.consulta}</h4>
+                    <p><strong>Total de resultados:</strong> ${resultado.total_resultados} personas</p>
+                </div>
+            `;
+
+            if (resultado.total_resultados > 0) {
+                html += `
+                    <div class="resultados-grid">
+                        <div class="stat-card">
+                            <div class="stat-number">${resultado.estadisticas.promedio_edad}</div>
+                            <div>Edad promedio</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">${resultado.estadisticas.promedio_belleza}/10</div>
+                            <div>Belleza promedio</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">${resultado.estadisticas.promedio_altura}cm</div>
+                            <div>Altura promedio</div>
+                        </div>
+                    </div>
+                `;
+
+                // Mostrar distribuciones
+                mostrarDistribucion(html, resultado, 'por_sexo', 'Distribución por Sexo');
+                mostrarDistribucion(html, resultado, 'por_sexualidad', 'Distribución por Sexualidad');
+                mostrarDistribucion(html, resultado, 'por_estudios', 'Distribución por Estudios');
+                mostrarDistribucion(html, resultado, 'por_ciudad', 'Distribución por Ciudad');
+
+                // Muestra de resultados individuales (anónimos)
+                html += `<h4>Muestra de Resultados (Anónimos)</h4><div class="grid">`;
+                resultado.resultados_muestra.forEach(persona => {
+                    html += `
+                        <article class="card">
+                            <p><strong>Sexo:</strong> ${persona.sexo || 'No especificado'}</p>
+                            <p><strong>Sexualidad:</strong> ${persona.sexualidad || 'No especificado'}</p>
+                            <p><strong>Estudios:</strong> ${persona.estudios || 'No especificado'}</p>
+                            <p><strong>Ciudad:</strong> ${persona.vive || 'No especificado'}</p>
+                            ${persona.edad ? `<p><strong>Edad:</strong> ${persona.edad}</p>` : ''}
+                            ${persona.belleza ? `<p><strong>Belleza:</strong> ${persona.belleza}/10</p>` : ''}
+                            ${persona.altura ? `<p><strong>Altura:</strong> ${persona.altura}cm</p>` : ''}
+                        </article>
+                    `;
+                });
+                html += `</div>`;
+            } else {
+                html += `<div class="consulta-card"><p>No se encontraron resultados para tu consulta.</p></div>`;
+            }
+
+            container.innerHTML = html;
+            section.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function mostrarDistribucion(html, resultado, clave, titulo) {
+            if (Object.keys(resultado.estadisticas[clave]).length > 0) {
+                html += `<h4>${titulo}</h4><div class="grid">`;
+                for (const [item, count] of Object.entries(resultado.estadisticas[clave])) {
+                    const porcentaje = ((count / resultado.total_resultados) * 100).toFixed(1);
+                    html += `
+                        <article class="card">
+                            <h5>${item.charAt(0).toUpperCase() + item.slice(1)}</h5>
+                            <p>${count} personas (${porcentaje}%)</p>
+                        </article>
+                    `;
+                }
+                html += `</div>`;
+            }
+        }
+    </script>
+</body>
+</html>

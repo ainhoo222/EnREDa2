@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>EnREDa2 - Login</title>
+    <meta name="description" content="Página de login para EnREDa2, la plataforma para calcular estadísticas en el amor." />
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="icon" type="image/png" href="../img/EnREDa2Logo.png" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <div class="header_logo-container">
+              <img src="../img/EnREDa2Logo.png" alt="Logo" class="header_logo">
+        </div>
+        <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav">☰</button>
+        <nav id="primary-nav" class="primary-nav">
+            <ul>
+                <li><a href="../index.html">Inicio</a></li>
+                <li><a href="register.html">Registrarse</a></li>
+            </ul>
+        </nav>
+      </div>
+    </header>
+    
+    <main>
+        <section id="login" class="container login">
+            <h3>Identificación de usuario</h3>
+            <form class="login-form" id="login-form">
+              <label for="l-username">Usuario *</label>
+              <input id="l-username" name="username" type="text" required />
+
+              <label for="l-password">Contraseña *</label>
+              <input id="l-password" name="password" type="password" required />
+
+              <button type="submit" class="btn">Identificarse</button>
+              <div id="login-feedback" class="muted" role="status" aria-live="polite"></div>
+              <p>¿No tienes una cuenta? <a href="register.html">Regístrate aquí</a></p>
+            </form>
+        </section>
+    </main>
+
+    <script>
+      // Manejo del formulario de login
+      document.getElementById('login-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const feedback = document.getElementById('login-feedback');
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData);
+        
+        feedback.textContent = 'Verificando...';
+        feedback.style.color = 'var(--color-text)';
+
+        try {
+          const response = await fetch('/api/login', {
+            method: 'POST',
+            headers: { 
+              'Content-Type': 'application/json' 
+            },
+            body: JSON.stringify(data)
+          });
+          
+          const result = await response.json();
+          
+          if (result.success) {
+            feedback.textContent = result.message + ' Redirigiendo...';
+            feedback.style.color = 'green';
+            
+            // Redirigir después de 1 segundo
+            setTimeout(() => {
+              window.location.href = '../dashboard.html';
+            }, 1000);
+          } else {
+            feedback.textContent = 'Error: ' + result.error;
+            feedback.style.color = 'red';
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          feedback.textContent = 'No se pudo conectar con el servidor. Intenta más tarde.';
+          feedback.style.color = 'red';
+        }
+      });
+
+      // Manejo del menú móvil
+      document.addEventListener('DOMContentLoaded', function () {
+        const navToggle = document.querySelector('.nav-toggle');
+        const primaryNav = document.getElementById('primary-nav');
+        
+        if (navToggle && primaryNav) {
+          navToggle.addEventListener('click', function () {
+            const expanded = this.getAttribute('aria-expanded') === 'true';
+            this.setAttribute('aria-expanded', String(!expanded));
+            primaryNav.setAttribute('aria-hidden', String(expanded));
+          });
+          
+          primaryNav.setAttribute('aria-hidden', 'true');
+        }
+      });
+    </script>
+  </body>
+</html>

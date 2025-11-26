@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EnREDa2 - Dashboard</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" type="image/png" href="img/EnREDa2Logo.png">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <div class="header_logo-container">
+                <img src="img/EnREDa2Logo.png" alt="Logo" class="header_logo">
+            </div>
+            <nav class="primary-nav">
+                <ul>
+                    <li><a href="#" id="user-welcome">Bienvenido</a></li>
+                    <li><a href="#" onclick="showSection('personas')">Mis Personas</a></li>
+                    <li><a href="#" onclick="showSection('estadisticas')">Estadísticas</a></li>
+                    <li><a href="consultas.html">Consultas</a></li>
+                    <li><a href="#" onclick="logout()">Cerrar Sesión</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Sección de Personas -->
+        <section id="personas-section" class="section-active">
+            <h3>Mis Personas</h3>
+            <button class="btn" onclick="showAddPersonForm()">+ Agregar Persona</button>
+            
+            <div id="personas-list" class="grid" style="margin-top: 1rem;">
+                <!-- Las personas se cargarán aquí -->
+            </div>
+
+            <!-- Formulario para agregar persona -->
+            <div id="add-person-form" style="display: none; margin-top: 2rem;">
+                <form id="persona-form" class="card">
+                    <h4>Agregar Nueva Persona</h4>
+                    
+                    <label for="p-nombre">Nombre *</label>
+                    <input id="p-nombre" name="nombre" type="text" required>
+
+                    <label for="p-edad">Edad</label>
+                    <input id="p-edad" name="edad" type="number" min="0" max="150">
+
+                    <label for="p-sexo">Sexo</label>
+                    <select id="p-sexo" name="sexo">
+                        <option value="">-- selecciona --</option>
+                        <option value="masculino">Masculino</option>
+                        <option value="femenino">Femenino</option>
+                        <option value="otro">Otro</option>
+                    </select>
+
+                    <label for="p-sexualidad">Sexualidad</label>
+                    <select id="p-sexualidad" name="sexualidad">
+                        <option value="">-- selecciona --</option>
+                        <option value="heterosexual">Heterosexual</option>
+                        <option value="homosexual">Homosexual</option>
+                        <option value="bisexual">Bisexual</option>
+                        <option value="otro">Otro</option>
+                    </select>
+
+                    <label for="p-altura">Altura (cm)</label>
+                    <input id="p-altura" name="altura" type="number" step="0.1">
+
+                    <label for="p-belleza">Belleza (1-10)</label>
+                    <input id="p-belleza" name="belleza" type="number" min="1" max="10">
+
+                    <label for="p-estudios">Estudios</label>
+                    <input id="p-estudios" name="estudios" type="text">
+
+                    <label for="p-vive">Lugar de residencia</label>
+                    <input id="p-vive" name="vive" type="text">
+
+                    <label for="p-comentario">Comentario</label>
+                    <textarea id="p-comentario" name="comentario" rows="3"></textarea>
+
+                    <div style="display: flex; gap: 1rem;">
+                        <button type="submit" class="btn">Guardar Persona</button>
+                        <button type="button" class="btn" onclick="hideAddPersonForm()" style="background: #6b7280;">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Sección de Estadísticas -->
+        <section id="estadisticas-section" style="display: none;">
+            <h3>Mis Estadísticas</h3>
+            <div id="stats-container" class="grid">
+                <!-- Las estadísticas se cargarán aquí -->
+            </div>
+        </section>
+    </main>
+
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>EnREDa2 - Registro</title>
+    <meta name="description" content="Página de registro para EnREDa2, la plataforma para calcular estadísticas en el amor." />
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="icon" type="image/png" href="../img/EnREDa2Logo.png" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <div class="header_logo-container">
+              <img src="../img/EnREDa2Logo.png" alt="Logo" class="header_logo">
+        </div>
+        <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav">☰</button>
+        <nav id="primary-nav" class="primary-nav">
+            <ul>
+                <li><a href="../index.html">Inicio</a></li>
+                <li><a href="login.html">Identificarse</a></li>
+            </ul>
+        </nav>
+      </div>
+    </header>
+    
+    <!-- Sección de registro de usuario -->
+    <section id="register" class="container register">
+      <h3>Registro de usuario</h3>
+      <form class="register-form" id="register-form">
+        <label for="r-username">Usuario *</label>
+        <input id="r-username" name="username" type="text" required />
+
+        <label for="r-password">Contraseña *</label>
+        <input id="r-password" name="password" type="password" required />
+
+        <label for="r-nombre">Nombre completo *</label>
+        <input id="r-nombre" name="nombre" type="text" required />
+
+        <label for="r-edad">Edad</label>
+        <input id="r-edad" name="edad" type="number" min="0" max="150" />
+
+        <label for="r-sexo">Sexo</label>
+        <select id="r-sexo" name="sexo">
+          <option value="">-- selecciona --</option>
+          <option value="masculino">Masculino</option>
+          <option value="femenino">Femenino</option>
+          <option value="otro">Otro</option>
+          <option value="prefiero_no_decir">Prefiero no decir</option>
+        </select>
+
+        <label for="r-sexualidad">Sexualidad</label>
+        <select id="r-sexualidad" name="sexualidad">
+          <option value="">-- selecciona --</option>
+          <option value="heterosexual">Heterosexual</option>
+          <option value="homosexual">Homosexual</option>
+          <option value="bisexual">Bisexual</option>
+          <option value="otro">Otro</option>
+        </select>
+
+        <label for="r-altura">Altura (cm)</label>
+        <input id="r-altura" name="altura" type="number" step="0.1" min="0" />
+
+        <label for="r-belleza">Belleza (1-10)</label>
+        <input id="r-belleza" name="belleza" type="number" min="1" max="10" />
+
+        <label for="r-estudios">Estudios</label>
+        <textarea id="r-estudios" name="estudios" rows="3" placeholder="Tus estudios o profesión"></textarea>
+
+        <label for="r-vive">Lugar de residencia</label>
+        <input id="r-vive" name="vive" type="text" />
+
+        <button type="submit" class="btn">Registrar</button>
+        <div id="register-feedback" class="muted" role="status" aria-live="polite"></div>
+        <p>¿Ya tienes una cuenta? <a href="login.html">Identifícate aquí</a></p>
+      </form>
+    </section>
+
+    <script>
+      // Manejo del formulario de registro
+      document.getElementById('register-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const feedback = document.getElementById('register-feedback');
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData);
+        
+        // Convertir valores numéricos
+        if (data.edad) data.edad = parseInt(data.edad, 10);
+        if (data.altura) data.altura = parseFloat(data.altura);
+        if (data.belleza) data.belleza = parseInt(data.belleza, 10);
+        
+        // Validaciones básicas
+        if (!data.username || !data.password || !data.nombre) {
+          feedback.textContent = 'Usuario, contraseña y nombre son obligatorios.';
+          feedback.style.color = 'red';
+          return;
+        }
+
+        if (data.edad && (data.edad < 0 || data.edad > 150)) {
+          feedback.textContent = 'La edad debe estar entre 0 y 150 años.';
+          feedback.style.color = 'red';
+          return;
+        }
+
+        feedback.textContent = 'Registrando...';
+        feedback.style.color = 'var(--color-text)';
+
+        try {
+          const response = await fetch('/api/register', {
+            method: 'POST',
+            headers: { 
+              'Content-Type': 'application/json' 
+            },
+            body: JSON.stringify(data)
+          });
+          
+          const result = await response.json();
+          
+          if (result.success) {
+            feedback.textContent = result.message + ' Redirigiendo...';
+            feedback.style.color = 'green';
+            
+            // Redirigir después de 2 segundos
+            setTimeout(() => {
+              window.location.href = '../dashboard.html';
+            }, 2000);
+          } else {
+            feedback.textContent = 'Error: ' + result.error;
+            feedback.style.color = 'red';
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          feedback.textContent = 'No se pudo conectar con el servidor. Intenta más tarde.';
+          feedback.style.color = 'red';
+        }
+      });
+
+      // Manejo del menú móvil
+      document.addEventListener('DOMContentLoaded', function () {
+        const navToggle = document.querySelector('.nav-toggle');
+        const primaryNav = document.getElementById('primary-nav');
+        
+        if (navToggle && primaryNav) {
+          navToggle.addEventListener('click', function () {
+            const expanded = this.getAttribute('aria-expanded') === 'true';
+            this.setAttribute('aria-expanded', String(!expanded));
+            primaryNav.setAttribute('aria-hidden', String(expanded));
+          });
+          
+          primaryNav.setAttribute('aria-hidden', 'true');
+        }
+
+        // Actualizar año en el footer si existe
+        const yearEl = document.getElementById('year');
+        if (yearEl) yearEl.textContent = new Date().getFullYear();
+      });
+    </script>
+  </body>
+</html>

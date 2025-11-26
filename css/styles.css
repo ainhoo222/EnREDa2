@@ -195,3 +195,67 @@ label{
 /* Small utilities */
 .text-center{text-align:center}
 .muted{color:#6b7280}
+
+
+.persona-card {
+        position: relative;
+        transition: all 0.3s ease;
+    }
+    
+    .persona-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    
+    .btn-eliminar {
+        background: #dc2626 !important;
+        color: white !important;
+        border: none !important;
+        padding: 0.4rem 0.8rem !important;
+        border-radius: 6px !important;
+        cursor: pointer !important;
+        font-size: 0.85rem !important;
+        transition: all 0.2s ease !important;
+    }
+    
+    .btn-eliminar:hover {
+        background: #b91c1c !important;
+        transform: scale(1.05) !important;
+    }
+    
+    .mensaje-exito {
+        background: #10b981;
+        color: white;
+        padding: 1rem;
+        border-radius: var(--radius);
+        margin: 1rem 0;
+        text-align: center;
+    }
+    
+    .mensaje-error {
+        background: #dc2626;
+        color: white;
+        padding: 1rem;
+        border-radius: var(--radius);
+        margin: 1rem 0;
+        text-align: center;
+    }
+.stat-number {
+    font-size: 3rem;
+    font-weight: bold;
+    color: var(--color-primary);
+    text-align: center;
+    margin: 1rem 0;
+}
+
+.stat-card {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: var(--radius);
+    text-align: center;
+    transition: transform 0.2s;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+}
