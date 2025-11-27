@@ -71,8 +71,8 @@ VALUES('Ane', 'Ane', 'Ane Moreno', '2004-09-23',
 
 INSERT INTO users(nombreUsuario, contraseña, nombre, fechaNacimiento, sexo, sexualidad, 
 altura, belleza, estudios, vive, kont) 
-VALUES('Unai', 'Unai', 'Unai Rodriguez', '2004-09-23', 
-'Femenino', 'Lesbiana', 1.70, 10, 'Ingenieria informatica', 'Bolueta', 7);
+VALUES('Unai', 'Unai', 'Unai Rodriguez', '2005-03-04', 
+'Masculino', 'Heterosexual', 1.70, 10, 'Ingenieria informatica', 'Erandio', 5);
 
 INSERT INTO users(nombreUsuario, contraseña, nombre, fechaNacimiento, sexo, sexualidad, 
 altura, belleza, estudios, vive, kont) 
